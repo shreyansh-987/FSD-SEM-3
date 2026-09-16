@@ -1,0 +1,37 @@
+<button onclick="openGoogle()">Open Google</button>
+<button onclick="openChatGPT()">Open ChatGPT</button>
+<button onclick="closeWindow()">Close Window</button>
+<button onclick="refreshWindow()">Refresh Window</button>
+
+<script>
+    let popup = null;
+
+    function openGoogle() {
+        popup = window.open(
+            "https://www.google.com",
+            "myPopup",
+            "width=500,height=500"
+        );
+        popup.document.write("<p>Welcome to Google!</p>");
+    }
+
+    function refreshWindow() {
+        popup.moveTo(100, 100);
+        popup.focus();
+    }
+
+    function openChatGPT() {
+        popup = window.open(
+            "https://chatgpt.com/",
+            "myPopup",
+            "width=500,height=500"
+        );
+    }
+
+    function closeWindow() {
+        if (popup && !popup.closed) {
+            popup.close();
+            popup = null;
+        }
+    }
+</script>
