@@ -1,12 +1,12 @@
-// let a={
-//     name:"shreyansh maddheshiya",
-//     course:"b.tech",
-//     branch:"CSE(DS)",
-//     COLLEGE:"ABES ENGINEERING COLLEGE",
-//     AGE:19,
-//     city:"varanasi"
-// }
-// console.log(a)
+let a={
+    name:"shreyansh maddheshiya",
+    course:"b.tech",
+    branch:"CSE(DS)",
+    COLLEGE:"ABES ENGINEERING COLLEGE",
+    AGE:19,
+    city:"varanasi"
+}
+console.log(a)
 
 //functtion via parameter
 
@@ -23,9 +23,9 @@
 // console.log(result);
 
 
-function sub(a,b){
-        return a-b;
-    }
-    let result = sub(5, 4);
-console.log(result);
+// function sub(a,b){
+//         return a-b;
+//     }
+//     let result = sub(5, 4);
+// console.log(result);
 

@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>FSD Quiz</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: lightblue;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 850px;
+            margin: auto;
+        }
+
+        /* Student Details */
+
+        .student-box {
+            background-color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+
+        .student-box h1 {
+            text-align: center;
+            color: blue;
+        }
+
+        .student-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .student-details p {
+            margin: 5px;
+            padding: 8px;
+            background-color: #f2f2f2;
+            border-radius: 5px;
+        }
+
+        /* Quiz Box */
+
+        .quiz-box {
+            background-color: white;
+            padding: 25px;
+            border-radius: 15px;
+        }
+
+        .quiz-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .quiz-header h2 {
+            margin: 0;
+        }
+
+        #timer {
+            background-color: red;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 10px;
+            font-weight: bold;
+        }
+
+        /* Progress */
+
+        .progress-container {
+            width: 100%;
+            background-color: #ddd;
+            border-radius: 10px;
+            height: 12px;
+            margin-bottom: 20px;
+        }
+
+        #progress {
+            width: 0%;
+            height: 12px;
+            background-color: blue;
+            border-radius: 10px;
+        }
+
+        /* Question */
+
+        #question {
+            font-size: 22px;
+            margin-bottom: 20px;
+        }
+
+        .option {
+            display: block;
+            background-color: #f2f2f2;
+            padding: 14px;
+            margin: 10px 0;
+            border-radius: 8px;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .option:hover {
+            background-color: #ddd;
+        }
+
+        .option input {
+            margin-right: 10px;
+        }
+
+        /* Buttons */
+
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 25px;
+        }
+
+        button {
+            padding: 10px 25px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        #previousBtn {
+            background-color: gray;
+            color: white;
+        }
+
+        #nextBtn {
+            background-color: blue;
+            color: white;
+        }
+
+        #submitBtn {
+            background-color: green;
+            color: white;
+            display: none;
+        }
+
+        button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        /* Result */
+
+        #result {
+            display: none;
+            background-color: white;
+            padding: 30px;
+            margin-top: 20px;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        #result h2 {
+            color: blue;
+        }
+
+        #score {
+            font-size: 30px;
+            font-weight: bold;
+        }
+
+        .correct {
+            color: green;
+        }
+
+        .wrong {
+            color: red;
+        }
+
+        #restartBtn {
+            background-color: blue;
+            color: white;
+            margin-top: 20px;
+        }
+
+        /* Mobile */
+
+        @media (max-width: 600px) {
+
+            .student-details {
+                grid-template-columns: 1fr;
+            }
+
+            .quiz-header {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .buttons {
+                gap: 10px;
+            }
+
+            button {
+                padding: 10px 15px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+<div class="container">
+
+
+    <!-- STUDENT INFORMATION -->
+
+    <div class="student-box">
+
+        <h1>FSD QUIZ</h1>
+
+        <div class="student-details">
+
+            <p>
+                <b>Name:</b>
+                <span id="studentName"></span>
+            </p>
+
+            <p>
+                <b>Class:</b>
+                <span id="studentClass"></span>
+            </p>
+
+            <p>
+                <b>Roll Number:</b>
+                <span id="studentRoll"></span>
+            </p>
+
+            <p>
+                <b>Admission Number:</b>
+                <span id="studentAdm"></span>
+            </p>
+
+            <p>
+                <b>Section:</b>
+                <span id="studentSection"></span>
+            </p>
+
+            <p>
+                <b>Branch:</b>
+                <span id="studentBranch"></span>
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- QUIZ -->
+
+    <div class="quiz-box" id="quizBox">
+
+        <div class="quiz-header">
+
+            <h2>
+                Question
+                <span id="questionNumber">1</span>
+                /
+                <span id="totalQuestions"></span>
+            </h2>
+
+            <div id="timer">
+                05:00
+            </div>
+
+        </div>
+
+
+        <!-- Progress Bar -->
+
+        <div class="progress-container">
+
+            <div id="progress"></div>
+
+        </div>
+
+
+        <!-- Question -->
+
+        <h3 id="question"></h3>
+
+
+        <!-- Options -->
+
+        <div id="options"></div>
+
+
+        <!-- Buttons -->
+
+        <div class="buttons">
+
+            <button id="previousBtn"
+                    onclick="previousQuestion()">
+                Previous
+            </button>
+
+            <button id="nextBtn"
+                    onclick="nextQuestion()">
+                Next
+            </button>
+
+            <button id="submitBtn"
+                    onclick="submitQuiz()">
+                Submit Quiz
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- RESULT -->
+
+    <div id="result">
+
+        <h2>Quiz Completed!</h2>
+
+        <p id="studentResult"></p>
+
+        <p id="score"></p>
+
+        <p id="percentage"></p>
+
+        <p id="status"></p>
+
+        <button id="restartBtn"
+                onclick="restartQuiz()">
+            Restart Quiz
+        </button>
+
+    </div>
+
+</div>
+
+
+<script>
+
+
+/* ==========================================
+   STUDENT DETAILS
+========================================== */
+
+document.getElementById("studentName").innerText =
+    localStorage.getItem("name") || "Not Available";
+
+document.getElementById("studentClass").innerText =
+    localStorage.getItem("class") || "Not Available";
+
+document.getElementById("studentRoll").innerText =
+    localStorage.getItem("roll") || "Not Available";
+
+document.getElementById("studentAdm").innerText =
+    localStorage.getItem("adm") || "Not Available";
+
+document.getElementById("studentSection").innerText =
+    localStorage.getItem("section") || "Not Available";
+
+document.getElementById("studentBranch").innerText =
+    localStorage.getItem("branch") || "Not Available";
+
+
+/* ==========================================
+   QUIZ QUESTIONS
+========================================== */
+
+const questions = [
+
+    {
+        question: "What does HTML stand for?",
+
+        options: [
+            "Hyper Text Markup Language",
+            "High Text Machine Language",
+            "Hyperlinks Text Mark Language",
+            "Home Tool Markup Language"
+        ],
+
+        answer: 0
+    },
+
+
+    {
+        question: "Which language is used to style a web page?",
+
+        options: [
+            "HTML",
+            "CSS",
+            "Java",
+            "C++"
+        ],
+
+        answer: 1
+    },
+
+
+    {
+        question: "Which language is mainly used to add interactivity to a webpage?",
+
+        options: [
+            "HTML",
+            "CSS",
+            "JavaScript",
+            "SQL"
+        ],
+
+        answer: 2
+    },
+
+
+    {
+        question: "Which HTML tag is used to create a hyperlink?",
+
+        options: [
+            "<link>",
+            "<a>",
+            "<href>",
+            "<url>"
+        ],
+
+        answer: 1
+    },
+
+
+    {
+        question: "Which CSS property is used to change text color?",
+
+        options: [
+            "font-color",
+            "text-color",
+            "color",
+            "background-color"
+        ],
+
+        answer: 2
+    },
+
+
+    {
+        question: "Which keyword is used to declare a variable in JavaScript?",
+
+        options: [
+            "var",
+            "int",
+            "string",
+            "define"
+        ],
+
+        answer: 0
+    },
+
+
+    {
+        question: "Which method is used to select an HTML element by its ID?",
+
+        options: [
+            "document.getElementById()",
+            "document.getElement()",
+            "document.selectId()",
+            "document.findId()"
+        ],
+
+        answer: 0
+    },
+
+
+    {
+        question: "Which storage method stores data in the browser with no automatic expiration?",
+
+        options: [
+            "sessionStorage",
+            "localStorage",
+            "cookieStorage",
+            "browserStorage"
+        ],
+
+        answer: 1
+    },
+
+
+    {
+        question: "Which event occurs when a user clicks a button?",
+
+        options: [
+            "onhover",
+            "onchange",
+            "onclick",
+            "onpress"
+        ],
+
+        answer: 2
+    },
+
+
+    {
+        question: "Which symbol is used for a single-line comment in JavaScript?",
+
+        options: [
+            "<!-- -->",
+            "/* */",
+            "//",
+            "#"
+        ],
+
+        answer: 2
+    }
+
+];
+
+let currentQuestion = 0;
+
+let userAnswers = new Array(questions.length).fill(null);
+
+let timeLeft = 300;
+
+let timer;
+
+document.getElementById("totalQuestions").innerText =
+    questions.length;
+
+loadQuestion();
+startTimer();
+function loadQuestion() {
+
+    let q = questions[currentQuestion];
+
+    document.getElementById("questionNumber").innerText =
+        currentQuestion + 1;
+
+    document.getElementById("question").innerText =
+        q.question;
+
+    let optionsHTML = "";
+
+    q.options.forEach(function(option, index) {
+
+        let checked = "";
+
+        if (userAnswers[currentQuestion] === index) {
+            checked = "checked";
+        }
+
+        optionsHTML += `
+
+            <label class="option">
+
+                <input
+                    type="radio"
+                    name="answer"
+                    value="${index}"
+                    ${checked}
+                    onchange="saveAnswer(${index})"
+                >
+
+                ${option}
+
+            </label>
+
+        `;
+
+    });
+
+    document.getElementById("options").innerHTML =
+        optionsHTML;
+
+
+    /* Progress */
+
+    let progress =
+        ((currentQuestion + 1) / questions.length) * 100;
+
+    document.getElementById("progress").style.width =
+        progress + "%";
+
+
+    /* Previous button */
+
+    if (currentQuestion === 0) {
+
+        document.getElementById("previousBtn").disabled = true;
+
+    } else {
+
+        document.getElementById("previousBtn").disabled = false;
+
+    }
+
+
+    /* Next / Submit */
+
+    if (currentQuestion === questions.length - 1) {
+
+        document.getElementById("nextBtn").style.display =
+            "none";
+
+        document.getElementById("submitBtn").style.display =
+            "block";
+
+    } else {
+
+        document.getElementById("nextBtn").style.display =
+            "block";
+
+        document.getElementById("submitBtn").style.display =
+            "none";
+
+    }
+
+}
+function saveAnswer(answer) {
+
+    userAnswers[currentQuestion] = answer;
+
+}
+function nextQuestion() {
+
+    if (userAnswers[currentQuestion] === null) {
+
+        alert("Please select an answer.");
+
+        return;
+    }
+    if (currentQuestion < questions.length - 1) {
+
+        currentQuestion++;
+
+        loadQuestion();
+
+    }
+
+}
+function previousQuestion() {
+
+    if (currentQuestion > 0) {
+
+        currentQuestion--;
+
+        loadQuestion();
+
+    }
+
+}
+function submitQuiz() {
+
+    if (userAnswers[currentQuestion] === null) {
+
+        alert("Please select an answer.");
+
+        return;
+    }
+
+
+    let unanswered =
+        userAnswers.filter(answer => answer === null).length;
+
+
+    if (unanswered > 0) {
+
+        let confirmSubmit =
+            confirm(
+                "You have " +
+                unanswered +
+                " unanswered question(s). Submit anyway?"
+            );
+
+        if (!confirmSubmit) {
+
+            return;
+
+        }
+
+    }
+
+
+    clearInterval(timer);
+
+
+    let score = 0;
+
+
+    for (let i = 0; i < questions.length; i++) {
+
+        if (userAnswers[i] === questions[i].answer) {
+
+            score++;
+
+        }
+
+    }
+
+
+    let percentage =
+        (score / questions.length) * 100;
+
+
+    /* Hide quiz */
+
+    document.getElementById("quizBox").style.display =
+        "none";
+
+
+    /* Show result */
+
+    document.getElementById("result").style.display =
+        "block";
+
+
+    document.getElementById("studentResult").innerText =
+        "Name: " +
+        localStorage.getItem("name");
+
+
+    document.getElementById("score").innerText =
+        "Score: " +
+        score +
+        " / " +
+        questions.length;
+
+
+    document.getElementById("percentage").innerText =
+        "Percentage: " +
+        percentage +
+        "%";
+
+
+    if (percentage >= 50) {
+
+        document.getElementById("status").innerHTML =
+            '<span class="correct">PASS</span>';
+
+    } else {
+
+        document.getElementById("status").innerHTML =
+            '<span class="wrong">FAIL</span>';
+
+    }
+
+
+    /* Save result */
+
+    localStorage.setItem("quizScore", score);
+
+    localStorage.setItem("quizPercentage", percentage);
+
+}
+function startTimer() {
+
+    timer = setInterval(function() {
+
+        let minutes =
+            Math.floor(timeLeft / 60);
+
+        let seconds =
+            timeLeft % 60;
+        if (seconds < 10) {
+
+            seconds = "0" + seconds;
+        }
+        document.getElementById("timer").innerText =
+            minutes + ":" + seconds;
+        if (timeLeft <= 0) {
+
+            clearInterval(timer);
+            alert("Time is up! Quiz will be submitted.");
+            submitQuiz();
+        }
+        timeLeft--;
+    }, 1000);
+}
+function restartQuiz() {
+    currentQuestion = 0;
+    userAnswers =
+        new Array(questions.length).fill(null);
+    timeLeft = 300;
+    document.getElementById("result").style.display =
+        "none";
+    document.getElementById("quizBox").style.display =
+        "block";
+    loadQuestion();
+    clearInterval(timer);
+    startTimer();
+}
+</script>
+</body>
+</html>
