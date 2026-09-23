@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Registration</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px auto;
+            max-width: 760px;
+            padding: 0 16px;
+        }
+        h1 {
+            margin-bottom: 18px;
+        }
+        form {
+            display: grid;
+            gap: 14px;
+            padding: 18px;
+            border: 1px solid #d1d5db;
+            border-radius: 10px;
+            background: #fafafa;
+        }
+        label {
+            font-weight: 600;
+        }
+        input, select, textarea, button {
+            width: 100%;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #b0b7c3;
+            box-sizing: border-box;
+            font-size: 1rem;
+        }
+        button {
+            background: #2563eb;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #1d4ed8;
+        }
+        .output {
+            margin-top: 20px;
+            padding: 18px;
+            border: 1px solid #93c5fd;
+            border-radius: 10px;
+            background: #eff6ff;
+        }
+    </style>
+</head>
+<body>
+    <h1>Student Registration Form</h1>
+    <form id="registrationForm">
+        <label for="fullName">Full Name</label>
+        <input type="text" id="fullName" name="fullName" required>
+
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required>
+
+        <label for="age">Age</label>
+        <input type="number" id="age" name="age" min="10" max="100" required>
+
+        <label for="city">City</label>
+        <input type="text" id="city" name="city" required>
+
+        <label for="course">Course</label>
+        <select id="course" name="course" required>
+            <option value="">Select course</option>
+            <option value="B.Tech - Computer Science and Engineering (Data Science)">B.Tech - Computer Science and Engineering (Data Science)</option>
+            <option value="B.Tech - Information Technology">B.Tech - Information Technology</option>
+            <option value="BCA">BCA</option>
+            <option value="MCA">MCA</option>
+        </select>
+
+        <label for="branch">Branch</label>
+        <input type="text" id="branch" name="branch">
+
+        <label for="remarks">Remarks</label>
+        <textarea id="remarks" name="remarks" rows="3"></textarea>
+
+        <button type="submit">Register Student</button>
+    </form>
+
+    <div id="output" class="output" hidden></div>
+
+    <script>
+        const form = document.getElementById('registrationForm');
+        const output = document.getElementById('output');
+
+        form.addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            const formData = new FormData(form);
+            const student = {
+                name: formData.get('fullName'),
+                email: formData.get('email'),
+                age: formData.get('age'),
+                city: formData.get('city'),
+                course: formData.get('course'),
+                branch: formData.get('branch'),
+                remarks: formData.get('remarks')
+            };
+
+            output.innerHTML = `
+                <h2>Registration Submitted</h2>
+                <p><strong>Name:</strong> ${student.name}</p>
+                <p><strong>Email:</strong> ${student.email}</p>
+                <p><strong>Age:</strong> ${student.age}</p>
+                <p><strong>City:</strong> ${student.city}</p>
+                <p><strong>Course:</strong> ${student.course}</p>
+                <p><strong>Branch:</strong> ${student.branch || 'N/A'}</p>
+                <p><strong>Remarks:</strong> ${student.remarks || 'None'}</p>
+            `;
+            output.hidden = false;
+            form.reset();
+        });
+    </script>
+</body>
+</html>

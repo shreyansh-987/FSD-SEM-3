@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    #form{
+        background-color:rgb(67, 243, 67);
+        color:rgb(11, 128, 230);
+        border:5px black solid;
+        align-items:center;
+        width:250px;
+        padding:10px;
+        margin-top:50px;
+        border-radius:10px;
+        text-align: left;
+    }
+    #myInput{
+        text-align:center;
+        border-radius:5px;
+        
+        
+    }
+
+</style>
+<body>
+    <center>
+    <div id='form'>
+        <!-- <h1 id='h1'>keyboard Events</h1>
+        <p>onkeydown</p>
+        <input type="text" id="myInput" onkeydown="alert(this.value)" placeholder="Type something...">
+        <p id='d'>onkeyup</p>
+        <input type="text" id="myInput" onkeyup="alert(this.value)" placeholder="Type something...">  
+        <p>onkeypress</p>
+        <input type="text" id="myInput" onkeypress="alert(this.value)" placeholder="Type something...">   -->
+       <h1 id='h1'>keyboard Events</h1>
+        <p>onkeydown</p>
+        <input type="text" id="myInput" onkeydown="document.getElementById('form').style.background=this.value" placeholder="Type something...">
+        <p id='d'>onkeyup</p>
+        <input type="text" id="myInput" onkeyup="document.getElementById('form').style.background=this.value"  placeholder="Type something...">  
+        <p>onkeypress</p>
+        <input type="text" id="myInput" onkeypress="document.getElementById('form').style.background=this.value"  placeholder="Type something...">  
+
+    </div>
+</center>
+</body>
+</html>

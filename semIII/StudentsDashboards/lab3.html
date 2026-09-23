@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>event in java </title>
+</head>
+<style>
+#box{
+    background-color:yellow;
+    color:rgb(11, 128, 230);
+    border:5px black solid;
+    align-items:center;
+    width:200px;
+    padding:10px;
+    margin-top:30px;
+    border-radius:10px;
+    
+   
+}
+</style>
+
+<body>
+    <div id ='box' onclick="handleClick()">
+        <h1>Event Handling in Java</h1>
+        
+    </div>
+    <hr><hr>
+      <div id ='box' onmouseover="section()">
+    <h1>Event Handling in Java</h1>
+        
+    </div>
+    <hr><hr>
+    <div id ='box' ondblclick="sec()">
+    <h1>Event Handling in Java</h1>
+        
+    </div>
+    <hr><hr>
+    <div id ='box' onmouseout="se()">
+    <h1>Event Handling in Java</h1>
+        
+    </div>
+    <script>
+    function handleClick() {
+        alert("Button clicked!");
+    }
+    function section(){
+        alert("on mouseover event");
+    }
+    function sec(){
+        alert("on ondblclick event");
+    }
+    function se(){
+        alert("on onmouseout event");
+    }
+    
+
+    </script>
+</body>
+</html>
